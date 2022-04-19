@@ -1,0 +1,19 @@
+<ul class="list-group m-0 p-0">
+    <li *ngFor="let y of _y" class="list-group-item row border-0 p-0 m-0">
+        <span *ngFor="let x of _x" class="col p-0 square {{whiteOrBlack(y,x)}}"
+            [title]="y+x">
+            <app-rook *ngIf="coordinate.black.rook[y+x]" [color]="0" (mousedown)="select(y+x,0,'rook',$event)"></app-rook>
+            <app-rook *ngIf="coordinate.white.rook[y+x]" [color]="1" (mousedown)="select(y+x,1,'rook',$event)"></app-rook>
+            <app-bishop *ngIf="coordinate.black.bishop[y+x]" [color]="0" (mousedown)="select(y+x,0,'bishop',$event)"></app-bishop>
+            <app-bishop *ngIf="coordinate.white.bishop[y+x]" [color]="1" (mousedown)="select(y+x,1,'bishop',$event)"></app-bishop>
+            <app-king *ngIf="coordinate.black.king[y+x]" [color]="0" (mousedown)="select(y+x,0,'king',$event)"></app-king>
+            <app-king *ngIf="coordinate.white.king[y+x]" [color]="1" (mousedown)="select(y+x,1,'king',$event)"></app-king>
+            <app-queen *ngIf="coordinate.black.queen[y+x]" [color]="0" (mousedown)="select(y+x,0,'queen',$event)"></app-queen>
+            <app-queen *ngIf="coordinate.white.queen[y+x]" [color]="1" (mousedown)="select(y+x,1,'queen',$event)"></app-queen>
+            <app-knight *ngIf="coordinate.black.knight[y+x]" [color]="0" (mousedown)="select(y+x,0,'knight',$event)"></app-knight>
+            <app-knight *ngIf="coordinate.white.knight[y+x]" [color]="1" (mousedown)="select(y+x,1,'knight',$event)"></app-knight>
+            <app-pawn *ngIf="coordinate.black.pawn[y+x]" [color]="0" (mousedown)="select(y+x,0,'pawn',$event)"></app-pawn>
+            <app-pawn *ngIf="coordinate.white.pawn[y+x]" [color]="1" (mousedown)="select(y+x,1,'pawn',$event)"></app-pawn>
+        </span>
+    </li>
+</ul>

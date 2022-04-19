@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+span {
+    z-index: 0;
+}
+
+i {
+    z-index: 999;
+}

@@ -71,7 +71,8 @@
               "browserTarget": "Chess:build:production"
             },
             "development": {
-              "browserTarget": "Chess:build:development"
+              "browserTarget": "Chess:build:development",
+              "port": 9898
             }
           },
           "defaultConfiguration": "development"
