@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SundryService } from 'src/app/sundry.service';
-import { EmitBody } from 'src/app/types';
+import { EmitBody, Figure } from 'src/app/types';
 
 @Component({
   selector: 'app-pawn',
@@ -16,6 +16,7 @@ export class PawnComponent implements OnInit {
     0: 'text-danger',
     1: 'text-success'
   };
+  name = Figure.pawn;
   constructor(private sundryService: SundryService) { }
 
   ngOnInit(): void {
@@ -25,7 +26,7 @@ export class PawnComponent implements OnInit {
   getColor() {
     return this.colors[this.color];
   }
-  start(event: MouseEvent, name: string) {
-    this.sundryService.moveFigure(this.coor, this.color, name, event, this.myColor!, this.myEvent);
+  start(event: MouseEvent) {
+    this.sundryService.moveFigure(this.coor, this.color, this.name, event, this.myColor!, this.myEvent);
   }
 }

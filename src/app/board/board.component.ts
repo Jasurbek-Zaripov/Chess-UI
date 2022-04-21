@@ -23,7 +23,7 @@ export class BoardComponent implements OnInit {
       pawn: { 'B1': 1, 'B2': 1, 'B3': 1, 'B4': 1, 'B5': 1, 'B6': 1, 'B7': 1, 'B8': 1, }
     },
     white: {
-      rook: { 'H1': 1, 'H8': 1 },
+      rook: { 'H1': 1, 'F8': 1 },
       bishop: { 'H3': 1, 'H6': 1 },
       king: { 'H4': 1 },
       queen: { 'H5': 1 },
@@ -45,6 +45,9 @@ export class BoardComponent implements OnInit {
     return this.colors[z];
   }
   move(body: EmitBody) {
-    this.sundryService.changeCoordinate(this.coordinate, body.color, body.coor, body.newcoor, body.name);
+    const can = this.sundryService.canMove(body.name, body.coor, body.newcoor, body.event, this.coordinate, body.color);
+    if (!can) this.sundryService.reset(body.event);
+    else this.sundryService.changeCoordinate(this.coordinate, body.color, body.coor, body.newcoor, body.name);
+    body.event.target.classList.remove('z');
   }
 }
