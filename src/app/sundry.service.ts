@@ -122,6 +122,16 @@ export class SundryService {
       if (coor[0] == newcoor[0] || coor[1] == newcoor[1]) return rook();
       return false;
     }
+
+    else if (name == Figure.king) {
+      const kY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
+      const kX = Math.abs(+coor[1] - +newcoor[1]);
+      if (kY >= 0 && kY <= 1 && kX >= 0 && kX <= 1) {
+        if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
+        else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
+        return true;
+      } else return false;
+    }
   }
   moveFigure(coor: string, color: number, name: string, event: any, myColor: string, myEvent: EventEmitter<EmitBody>) {
     if (myColor != Player[color]) return;
