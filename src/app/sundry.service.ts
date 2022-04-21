@@ -28,33 +28,10 @@ export class SundryService {
     return remove[0];
   }
   canMove(name: string, coor: string, newcoor: string, event: any, coordinate: any, color: number): boolean | void {
-    if (name == Figure.pawn) {
-      if (ForY[coor[0] as any] != (ForY[newcoor[0] as any] + 1)) { this.reset(event); return false; }
-      else if (newcoor[1] != coor[1]) {
-        if (((+coor[1] == (+newcoor[1] - 1)) || (+coor[1] == (+newcoor[1] + 1))) && (ForY[coor[0] as any] == (ForY[newcoor[0] as any] + 1))) {
-          if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
-          else { this.reset(event); return false; }
-        } else { this.reset(event); return false; }
-      }
-      else if (coordinate[Player[color]][name][newcoor]) { this.reset(event); return false; }
-      if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor, false)) return false;
-      if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
-      return true;
-    }
 
-    else if (name == Figure.knight) {
-      const rY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
-      const rX = Math.abs(+coor[1] - +newcoor[1]);
-      if (rX == 1 && rY == 2 || rX == 2 && rY == 1) {
-        if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
-        else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
-        return true;
-      } else return false;
-    }
-
-    else if (name == Figure.rook) {
+    const rook = () => {
       let vertical = true;
-      let items;
+      let items: any = [];
       if (coor[0] == newcoor[0]) {
         items = [1, 2, 3, 4, 5, 6, 7, 8];
         let cX = items.indexOf(+coor[1]);
@@ -69,7 +46,6 @@ export class SundryService {
         if (cX > nX) items = items.slice(nX + 1, cX);
         else items = items.slice(cX + 1, nX);
       }
-      if (!items) return false;
       for (const i of items) {
         if (this.removeFigure(coordinate[Player[color ? 0 : 1]], vertical ? coor[0] + i : i + coor[1], false)) return false;
         else if (this.removeFigure(coordinate[Player[color]], vertical ? coor[0] + i : i + coor[1], false)) return false;
@@ -77,9 +53,9 @@ export class SundryService {
       if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
       else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
       return true;
-    }
+    };
 
-    else if (name == Figure.bishop) {
+    const bishop = () => {
       const bY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
       const bX = Math.abs(+coor[1] - +newcoor[1]);
       if (bY == bX) {
@@ -105,6 +81,46 @@ export class SundryService {
         return true;
       }
       else return false;
+    };
+
+    if (name == Figure.pawn) {
+      if (ForY[coor[0] as any] != (ForY[newcoor[0] as any] + 1)) { this.reset(event); return false; }
+      else if (newcoor[1] != coor[1]) {
+        if (((+coor[1] == (+newcoor[1] - 1)) || (+coor[1] == (+newcoor[1] + 1))) && (ForY[coor[0] as any] == (ForY[newcoor[0] as any] + 1))) {
+          if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
+          else { this.reset(event); return false; }
+        } else { this.reset(event); return false; }
+      }
+      else if (coordinate[Player[color]][name][newcoor]) { this.reset(event); return false; }
+      if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor, false)) return false;
+      if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
+      return true;
+    }
+
+    else if (name == Figure.knight) {
+      const rY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
+      const rX = Math.abs(+coor[1] - +newcoor[1]);
+      if (rX == 1 && rY == 2 || rX == 2 && rY == 1) {
+        if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
+        else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
+        return true;
+      } else return false;
+    }
+
+    else if (name == Figure.rook) {
+      return rook();
+    }
+
+    else if (name == Figure.bishop) {
+      return bishop();
+    }
+
+    else if (name == Figure.queen) {
+      const qY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
+      const qX = Math.abs(+coor[1] - +newcoor[1]);
+      if (qX == qY) return bishop();
+      if (coor[0] == newcoor[0] || coor[1] == newcoor[1]) return rook();
+      return false;
     }
   }
   moveFigure(coor: string, color: number, name: string, event: any, myColor: string, myEvent: EventEmitter<EmitBody>) {
