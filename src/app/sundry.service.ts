@@ -41,6 +41,7 @@ export class SundryService {
       if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
       return true;
     }
+
     else if (name == Figure.knight) {
       const rY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
       const rX = Math.abs(+coor[1] - +newcoor[1]);
@@ -50,6 +51,7 @@ export class SundryService {
         return true;
       } else return false;
     }
+
     else if (name == Figure.rook) {
       let vertical = true;
       let items;
@@ -75,6 +77,34 @@ export class SundryService {
       if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
       else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
       return true;
+    }
+
+    else if (name == Figure.bishop) {
+      const bY = Math.abs(+ForY[coor[0] as any] - +ForY[newcoor[0] as any]);
+      const bX = Math.abs(+coor[1] - +newcoor[1]);
+      if (bY == bX) {
+        let nums = [1, 2, 3, 4, 5, 6, 7, 8];
+        let cX = nums.indexOf(+coor[1]);
+        let nX = nums.indexOf(+newcoor[1]);
+        if (cX > nX) nums = nums.slice(nX + 1, cX);
+        else nums = nums.slice(cX + 1, nX);
+
+        let alphas = 'ABCDEFGH';
+        cX = alphas.indexOf(coor[0]);
+        nX = alphas.indexOf(newcoor[0]);
+        if (cX > nX) alphas = alphas.slice(nX + 1, cX);
+        else alphas = alphas.slice(cX + 1, nX);
+        if (coor[0] > newcoor[0] && coor[1] < newcoor[1] || coor[0] < newcoor[0] && coor[1] > newcoor[1]) nums.reverse();
+
+        for (let i = 0; i < bX; i++) {
+          if (this.removeFigure(coordinate[Player[color ? 0 : 1]], alphas[i] + nums[i], false)) return false;
+          else if (this.removeFigure(coordinate[Player[color]], alphas[i] + nums[i], false)) return false;
+        }
+        if (this.removeFigure(coordinate[Player[color ? 0 : 1]], newcoor)) return true;
+        else if (this.removeFigure(coordinate[Player[color]], newcoor, false)) return false;
+        return true;
+      }
+      else return false;
     }
   }
   moveFigure(coor: string, color: number, name: string, event: any, myColor: string, myEvent: EventEmitter<EmitBody>) {

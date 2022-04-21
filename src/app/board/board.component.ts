@@ -23,7 +23,7 @@ export class BoardComponent implements OnInit {
       pawn: { 'B1': 1, 'B2': 1, 'B3': 1, 'B4': 1, 'B5': 1, 'B6': 1, 'B7': 1, 'B8': 1, }
     },
     white: {
-      rook: { 'H1': 1, 'F8': 1 },
+      rook: { 'H1': 1, 'H8': 1 },
       bishop: { 'H3': 1, 'H6': 1 },
       king: { 'H4': 1 },
       queen: { 'H5': 1 },
