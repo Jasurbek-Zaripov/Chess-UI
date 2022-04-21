@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 import { SundryService } from '../sundry.service';
 import { EmitBody, Player } from '../types';
 
@@ -9,7 +10,6 @@ import { EmitBody, Player } from '../types';
 })
 export class BoardComponent implements OnInit {
   colors: any = { 1: 'bg-dark', 0: 'bg-light' };
-  myColor: string | null = null;
   _y = 'ABCDEFGH'.split('');
   _x = '12345678'.split('');
 
@@ -31,23 +31,20 @@ export class BoardComponent implements OnInit {
       pawn: { 'G1': 1, 'G2': 1, 'G3': 1, 'G4': 1, 'G5': 1, 'G6': 1, 'G7': 1, 'G8': 1, }
     }
   };
-  constructor(private sundryService: SundryService) { }
+  constructor(private sundryService: SundryService,
+    private socket: Socket) { }
 
   ngOnInit(): void {
-    this.myColor = localStorage.getItem('me');
-    if (!this.myColor) {
-      localStorage.setItem('me', 'white');
-      this.myColor = Player[1];
-    }
   }
   whiteOrBlack(y: string, x: string, z = 0): string {
     if ((y['charCodeAt'](0) % 2) == (+x % 2)) z = 1;
     return this.colors[z];
   }
   move(body: EmitBody) {
-    const can = this.sundryService.canMove(body.name, body.coor, body.newcoor, body.event, this.coordinate, body.color);
+    const can = this.sundryService.canMove(body.name, body.coor, body.newcoor, body.event, this.coordinate);
     if (!can) this.sundryService.reset(body.event);
-    else this.sundryService.changeCoordinate(this.coordinate, body.color, body.coor, body.newcoor, body.name);
-    body.event.target.classList.remove('z');
+    else {
+      this.sundryService.changeCoordinate(this.coordinate, 1, body.coor, body.newcoor, body.name);
+    }
   }
 }

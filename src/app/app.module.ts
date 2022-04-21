@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
@@ -10,6 +11,14 @@ import { BishopComponent } from './figure/bishop/bishop.component';
 import { KnightComponent } from './figure/knight/knight.component';
 import { PawnComponent } from './figure/pawn/pawn.component';
 
+
+
+const config: SocketIoConfig = {
+  url: '', // socket server url;
+  options: {
+    transports: ['websocket']
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +31,8 @@ import { PawnComponent } from './figure/pawn/pawn.component';
     PawnComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]

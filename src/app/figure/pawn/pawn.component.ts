@@ -11,7 +11,6 @@ export class PawnComponent implements OnInit {
   @Input() color = 0;
   @Input() coor = '';
   @Output() myEvent = new EventEmitter<EmitBody>();
-  myColor: string | null = '';
   colors: any = {
     0: 'text-danger',
     1: 'text-success'
@@ -20,13 +19,12 @@ export class PawnComponent implements OnInit {
   constructor(private sundryService: SundryService) { }
 
   ngOnInit(): void {
-    this.myColor = localStorage.getItem('me');
   }
 
   getColor() {
     return this.colors[this.color];
   }
   start(event: MouseEvent) {
-    this.sundryService.moveFigure(this.coor, this.color, this.name, event, this.myColor!, this.myEvent);
+    this.sundryService.moveFigure(this.coor, this.color, this.name, event, this.myEvent);
   }
 }

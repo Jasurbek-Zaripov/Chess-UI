@@ -11,4 +11,4 @@ export enum Figure {
     rook = 'rook'
 }
 export enum ForY { A = 1, B, C, D, E, F, G, H }
-export interface EmitBody { color: number, coor: string, newcoor: string, name: string; event: any; }
+export interface EmitBody { coor: string, newcoor: string, name: string; event: any; }

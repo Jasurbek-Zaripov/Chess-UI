@@ -13,7 +13,6 @@ export class QueenComponent implements OnInit {
   @Input() coor = '';
   @Output() myEvent = new EventEmitter<EmitBody>();
   name = Figure.queen;
-  myColor: string | null = '';
   colors: any = {
     0: 'text-danger',
     1: 'text-success'
@@ -21,13 +20,12 @@ export class QueenComponent implements OnInit {
   constructor(private sundryService: SundryService) { }
 
   ngOnInit(): void {
-    this.myColor = localStorage.getItem('me');
   }
 
   getColor() {
     return this.colors[this.color];
   }
   start(event: MouseEvent) {
-    this.sundryService.moveFigure(this.coor, this.color, this.name, event, this.myColor!, this.myEvent);
+    this.sundryService.moveFigure(this.coor, this.color, this.name, event, this.myEvent);
   }
 }
