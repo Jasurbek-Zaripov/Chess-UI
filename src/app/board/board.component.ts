@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { SundryService } from '../sundry.service';
-import { EmitBody, Player } from '../types';
+import { EmitBody, SocketBody } from '../types';
 
 @Component({
   selector: 'app-board',
@@ -12,6 +12,7 @@ export class BoardComponent implements OnInit {
   colors: any = { 1: 'bg-dark', 0: 'bg-light' };
   _y = 'ABCDEFGH'.split('');
   _x = '12345678'.split('');
+  myName = '';
 
   coordinate: any = {
     black: {
@@ -35,16 +36,42 @@ export class BoardComponent implements OnInit {
     private socket: Socket) { }
 
   ngOnInit(): void {
+    this.socket.fromEvent<SocketBody>('update').subscribe({
+      next: (data: SocketBody) => {
+        data.coordinate = this.reverseCoordinate(data.coordinate);
+        data.newcoordinate = this.reverseCoordinate(data.newcoordinate);
+        if (data.player != this.myName) this.sundryService.changeCoordinate(this.coordinate, 0, data.coordinate, data.newcoordinate, data.figure);
+        this.sundryService.removeFigure(this.coordinate['white'], data.newcoordinate);
+      }
+    });
+
+    this.myName = '' + Date.now();
   }
+
   whiteOrBlack(y: string, x: string, z = 0): string {
     if ((y['charCodeAt'](0) % 2) == (+x % 2)) z = 1;
     return this.colors[z];
   }
+
+  reverseCoordinate(coordinate: string) {
+    const arr: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const y = arr[Math.abs(arr.indexOf(coordinate[0]) - 7)];
+    const x = Math.abs(+coordinate[1] - 9);
+    return y + x;
+  }
+
   move(body: EmitBody) {
     const can = this.sundryService.canMove(body.name, body.coor, body.newcoor, body.event, this.coordinate);
     if (!can) this.sundryService.reset(body.event);
     else {
       this.sundryService.changeCoordinate(this.coordinate, 1, body.coor, body.newcoor, body.name);
+      const request: SocketBody = {
+        coordinate: body.coor,
+        newcoordinate: body.newcoor,
+        figure: body.name,
+        player: this.myName
+      };
+      this.socket.emit('moved', request);
     }
   }
 }

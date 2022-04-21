@@ -14,7 +14,7 @@ import { PawnComponent } from './figure/pawn/pawn.component';
 
 
 const config: SocketIoConfig = {
-  url: '', // socket server url;
+  url: 'http://10.226.33.116:3000', // socket server url;
   options: {
     transports: ['websocket']
   }

@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+.square {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.square:hover {
+    border: 2px solid silver;
+}
+
+li {
+    height: 100px;
+}
+
+ul {
+    border: 1px solid black;
+    box-shadow: 0 0 15px 0 black;
+}
+
+ul,
+li {
+    width: fit-content;
+}
+
+.top-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+}
