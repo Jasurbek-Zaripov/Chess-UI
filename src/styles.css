@@ -11,17 +11,17 @@
     border: 2px solid silver;
 }
 
-li {
+.board-li {
     height: 100px;
 }
 
-ul {
+.board-ul {
     border: 1px solid black;
     box-shadow: 0 0 15px 0 black;
 }
 
-ul,
-li {
+.board-ul,
+.board-li {
     width: fit-content;
 }
 
@@ -31,4 +31,23 @@ li {
     justify-content: center;
     width: 100px;
     height: 100px;
+}
+
+.chat {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.chat-list {
+    min-height: 100px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgb(149, 161, 154);
 }

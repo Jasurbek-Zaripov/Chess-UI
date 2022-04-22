@@ -1,5 +1,5 @@
-<ul class="list-group m-0 p-0">
-    <li *ngFor="let y of _y" class="list-group-item row border-0 p-0 m-0">
+<ul class="list-group m-0 p-0 board-ul">
+    <li *ngFor="let y of _y" class="board-li list-group-item row border-0 p-0 m-0">
         <span *ngFor="let x of _x" class="col p-0 square {{whiteOrBlack(y,x)}}" [title]="y+x">
             <app-rook *ngIf="coordinate.black.rook[y+x]" [color]="0" [coor]="y+x" (myEvent)="move($event)"></app-rook>
             <app-rook *ngIf="coordinate.white.rook[y+x]" [color]="1" [coor]="y+x" (myEvent)="move($event)"></app-rook>
@@ -16,3 +16,4 @@
         </span>
     </li>
 </ul>
+<app-chat [myName]="myName"></app-chat>

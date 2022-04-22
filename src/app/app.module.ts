@@ -10,6 +10,7 @@ import { RookComponent } from './figure/rook/rook.component';
 import { BishopComponent } from './figure/bishop/bishop.component';
 import { KnightComponent } from './figure/knight/knight.component';
 import { PawnComponent } from './figure/pawn/pawn.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 
@@ -28,7 +29,8 @@ const config: SocketIoConfig = {
     RookComponent,
     BishopComponent,
     KnightComponent,
-    PawnComponent
+    PawnComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

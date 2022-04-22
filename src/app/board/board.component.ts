@@ -38,14 +38,30 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
     this.socket.fromEvent<SocketBody>('update').subscribe({
       next: (data: SocketBody) => {
+        if (!this.myName) return console.log('empty your name!');
         data.coordinate = this.reverseCoordinate(data.coordinate);
         data.newcoordinate = this.reverseCoordinate(data.newcoordinate);
         if (data.player != this.myName) this.sundryService.changeCoordinate(this.coordinate, 0, data.coordinate, data.newcoordinate, data.figure);
+        console.log(data.coordinate, '->', data.newcoordinate);
         this.sundryService.removeFigure(this.coordinate['white'], data.newcoordinate);
       }
     });
 
-    this.myName = '' + Date.now();
+    const sessionName = sessionStorage.getItem('me');
+    if (sessionName) {
+      this.myName = sessionName;
+    } else {
+      this.socket.emit('name:get');
+      this.socket.fromEvent('name:send').subscribe({
+        next: (name: any) => {
+          if (name) {
+            this.myName = name || null;
+            sessionStorage.setItem('me', this.myName);
+          }
+        }
+      });
+    }
+
   }
 
   whiteOrBlack(y: string, x: string, z = 0): string {

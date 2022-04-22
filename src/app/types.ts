@@ -18,3 +18,8 @@ export interface SocketBody {
     figure: string;
     player: string;
 }
+export interface chatBody {
+    name: string,
+    message: string;
+    time: string;
+}
