@@ -1,0 +1,18 @@
+<div class="chat">
+    <div class="list-group chat-list">
+        <div *ngFor="let obj of messages" class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <img class="avatar"
+                    src="https://media.istockphoto.com/vectors/profile-icon-male-emotion-avatar-man-cartoon-portrait-happy-smiling-vector-id693553474"
+                    alt=""> <h5 class="mb-1">{{obj.name}}</h5>
+                <small>{{obj.time}}</small>
+            </div>
+            <p class="mb-1">{{obj.message}}</p>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Send message" aria-label="Send message"
+            aria-describedby="button-addon2" #inp (keydown)="enter($event,inp)">
+        <button class="btn btn-success" type="button" id="button-addon2" (click)="send(inp)">Send</button>
+    </div>
+</div>
