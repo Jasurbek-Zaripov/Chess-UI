@@ -3,12 +3,12 @@
     width: 100px;
     height: 100px;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     position: relative;
 }
 
 .square:hover {
-    border: 2px solid silver;
+    border: 2px solid rgb(136, 192, 5);
 }
 
 .board-li {
@@ -16,8 +16,8 @@
 }
 
 .board-ul {
-    border: 1px solid black;
-    box-shadow: 0 0 15px 0 black;
+    box-shadow: 0 -0 14px 6px #0000001c;
+    ;
 }
 
 .board-ul,
@@ -34,9 +34,13 @@
 }
 
 .chat {
+    padding: 10px;
+    padding-bottom: 0;
     position: fixed;
-    right: 0;
-    top: 0;
+    right: 20px;
+    top: 20px;
+    border-radius: 5px;
+    box-shadow: -8px -5px 14px 6px #0000001c;
 }
 
 .chat-list {
@@ -50,4 +54,12 @@
     height: 30px;
     border-radius: 50%;
     border: 1px solid rgb(149, 161, 154);
+}
+
+.dark {
+    background: #818181 !important;
+}
+
+html>body {
+    transition-duration: 0.6s;
 }

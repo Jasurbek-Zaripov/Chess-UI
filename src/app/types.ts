@@ -21,5 +21,5 @@ export interface SocketBody {
 export interface chatBody {
     name: string,
     message: string;
-    time: string;
+    time: Date;
 }

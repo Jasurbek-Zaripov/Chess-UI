@@ -1,18 +1,34 @@
 <div class="chat">
-    <div class="list-group chat-list">
-        <div *ngFor="let obj of messages" class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex justify-content-around align-items-center">
+        <img width="35px" src="./assets/bell.{{newMessage ? 'gif' :'png'}}" alt="bell">
+        <div *ngIf="writing" class="d-flex justify-content-around align-items-center">
+            <span class="fw-bold">typing</span>
+            <img width="25px" src="./assets/write.gif" alt="write">
+        </div>
+    </div>
+    <div class="list-group chat-list" id="chat">
+        <div *ngFor="let obj of messages" class="list-group-item list-group-item-action" aria-current="true" [title]="obj.time |
+            date:'medium'">
             <div class="d-flex w-100 justify-content-between">
-                <img class="avatar"
-                    src="https://media.istockphoto.com/vectors/profile-icon-male-emotion-avatar-man-cartoon-portrait-happy-smiling-vector-id693553474"
-                    alt=""> <h5 class="mb-1">{{obj.name}}</h5>
-                <small>{{obj.time}}</small>
+                <h5 class="mb-1 {{obj.name == myName ? 'text-success':'text-danger'}}">
+                    <i class="fa-solid fa-person{{obj.name == myName ? '':'-digging'}}"></i>
+                    {{obj.name == myName ? 'Me' :'He'}}
+                </h5>
+                <small>
+                    <i class="fa-solid fa-clock"></i>
+                    {{obj.time | date:'HH:mm'}}
+                </small>
             </div>
-            <p class="mb-1">{{obj.message}}</p>
+            <ul class="list-group list-group-flush">
+                <li *ngFor="let text of obj.message" class="list-group-item">{{text}}</li>
+            </ul>
         </div>
     </div>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Send message" aria-label="Send message"
-            aria-describedby="button-addon2" #inp (keydown)="enter($event,inp)">
-        <button class="btn btn-success" type="button" id="button-addon2" (click)="send(inp)">Send</button>
+        <textarea class="form-control" placeholder="Send message" aria-label="Send message"
+            aria-describedby="button-addon2" id="area" (keydown)="enter($event)" rows="1"></textarea>
+        <button class="btn btn-success" type="button" id="button-addon2" (click)="send()">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
     </div>
 </div>

@@ -18,8 +18,8 @@ export class BoardComponent implements OnInit {
     black: {
       rook: { 'A1': 1, 'A8': 1 },
       bishop: { 'A3': 1, 'A6': 1 },
-      king: { 'A4': 1 },
-      queen: { 'A5': 1 },
+      king: { 'A5': 1 },
+      queen: { 'A4': 1 },
       knight: { 'A2': 1, 'A7': 1 },
       pawn: { 'B1': 1, 'B2': 1, 'B3': 1, 'B4': 1, 'B5': 1, 'B6': 1, 'B7': 1, 'B8': 1, }
     },
@@ -33,7 +33,25 @@ export class BoardComponent implements OnInit {
     }
   };
   constructor(private sundryService: SundryService,
-    private socket: Socket) { }
+    private socket: Socket) {
+    this.socket.emit('name:get');
+    this.socket.fromEvent('name:send').subscribe({
+      next: (name: any) => {
+        this.myName ||= name;
+      }
+    });
+
+    this.socket.fromEvent('exit').subscribe({
+      next: data => {
+        alert('\n\n  -- Player diconnected😞  --  \n\n');
+        this.socket.emit('message');
+        this.coordinate = {
+          black: { rook: { 'A1': 1, 'A8': 1 }, bishop: { 'A3': 1, 'A6': 1 }, king: { 'A5': 1 }, queen: { 'A4': 1 }, knight: { 'A2': 1, 'A7': 1 }, pawn: { 'B1': 1, 'B2': 1, 'B3': 1, 'B4': 1, 'B5': 1, 'B6': 1, 'B7': 1, 'B8': 1, } },
+          white: { rook: { 'H1': 1, 'H8': 1 }, bishop: { 'H3': 1, 'H6': 1 }, king: { 'H4': 1 }, queen: { 'H5': 1 }, knight: { 'H2': 1, 'H7': 1 }, pawn: { 'G1': 1, 'G2': 1, 'G3': 1, 'G4': 1, 'G5': 1, 'G6': 1, 'G7': 1, 'G8': 1, } }
+        };
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.socket.fromEvent<SocketBody>('update').subscribe({
@@ -41,27 +59,13 @@ export class BoardComponent implements OnInit {
         if (!this.myName) return console.log('empty your name!');
         data.coordinate = this.reverseCoordinate(data.coordinate);
         data.newcoordinate = this.reverseCoordinate(data.newcoordinate);
-        if (data.player != this.myName) this.sundryService.changeCoordinate(this.coordinate, 0, data.coordinate, data.newcoordinate, data.figure);
-        console.log(data.coordinate, '->', data.newcoordinate);
-        this.sundryService.removeFigure(this.coordinate['white'], data.newcoordinate);
+
+        if (data.player != this.myName) {
+          this.sundryService.changeCoordinate(this.coordinate, 0, data.coordinate, data.newcoordinate, data.figure);
+          this.sundryService.removeFigure(this.coordinate['white'], data.newcoordinate, true, [false]);
+        }
       }
     });
-
-    const sessionName = sessionStorage.getItem('me');
-    if (sessionName) {
-      this.myName = sessionName;
-    } else {
-      this.socket.emit('name:get');
-      this.socket.fromEvent('name:send').subscribe({
-        next: (name: any) => {
-          if (name) {
-            this.myName = name || null;
-            sessionStorage.setItem('me', this.myName);
-          }
-        }
-      });
-    }
-
   }
 
   whiteOrBlack(y: string, x: string, z = 0): string {

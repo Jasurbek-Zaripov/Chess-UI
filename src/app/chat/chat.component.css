@@ -1,0 +1,8 @@
+textarea {
+    resize: none;
+}
+
+.list-group-item-action:hover {
+    background: transparent;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.26);
+}
